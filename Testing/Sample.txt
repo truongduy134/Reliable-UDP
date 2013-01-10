@@ -1,0 +1,59 @@
+Run the server:
+	./kftserver 10000 10 -d
+
+For all the test cases, we will use this kftserver.
+
+*************************************
+Test case 1: Invalid loss rate
+*************************************
+In the client shell, type:
+	./kftclient <your_server_ip_address> 10000 abc.txt def.txt 5000 -1 -d
+Expected output:
+	set_dropper: Invalid value of loss percentage
+	set_dropper() fails: -1
+
+*****************************************
+Test case 2: Invalid maximum packet size
+*****************************************
+In the client shell, type:
+	./kftclient <your_server_ip_address> 10000 abc.txt def.txt 0 90 -d
+Expected output:
+	Command-line arguments: Max packet size must be positive.
+
+*****************************************
+Test case 3: Remote file does not exist
+*****************************************
+Suppose in your working directory of the server, there is no file with name NOTFOUND.txt
+In the client shell, type:
+	./kftclient <your_server_ip_address> 10000 NOTFOUND.txt def.txt 5000 10
+Expected output:
+	Server cannot found the file with name = NOTFOUND.txt
+	Elapse time = <time> (where time varies between each run)
+
+*********************************************
+Test case 3: Transfer text file successfully
+*********************************************
+Suppose in your working directory of the server, there is a file with name Sample.txt 
+In the client shell, type:
+	./kftclient <your_server_ip_address> 10000 Sample.txt CopySample.txt 5000 10
+Expected output:
+	File has successfully written
+	Elapse time = <time> (where time varies between each run)
+You are also expected to find a file CopySample.txt in your working directory of the client.
+Next, copy Sample.txt to the working directory of the client (if it is not), then in the shell, type:
+	diff Sample.txt CopySample.txt
+You are expected to see no output line printed (i.e. the two files have same content)
+
+**********************************************
+Test case 4: Transfer image file sucessfully
+**********************************************
+Suppose in your working directory of the server, there is a file with name testImage.jpg (I have attached this file in the submission)
+In the client shell, type:
+	./kftclient <your_server_ip_address> 10000 testImage.jpg copyImage.jpg 5000 10
+Expected output:
+	File has successfully written
+	Elapse time = <time> (where time varies between each run)
+You are also expected to find a file testImage.jpg in your working directory of the client.
+Next, copy Sample.txt to the working directory of the client (if it is not), then in the shell, type:
+	diff testImage.jpg copyImage.jpg
+You are expected to see no output line printed (i.e. the two files have same content). Also, you can view the copy image, which looks exactly the same as the original one!
